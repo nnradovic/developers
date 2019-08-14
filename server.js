@@ -7,8 +7,16 @@ const app = express()
 //Connect Database
 connectDB()
 
-//Respones route to FRONT 
-app.get('/', (req,res)=>res.send('API Runing'));
+
+
+//Define Routes which server use when hit this route and show you your data.
+app.get('/', (req,res)=> res.send('API Running'));
+
+app.use('/api/users', require('./routes/api/users'));
+app.use('/api/auth', require('./routes/api/auth'));
+app.use('/api/profile', require('./routes/api/profile'));
+app.use('/api/posts', require('./routes/api/posts'));
+
 
 //Server runs on port 
 const PORT = process.env.PORT || 5000;

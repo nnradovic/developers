@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, compose } from "redux"; //pravimo store i uzimamo midlver za thunk
-import { composeWithDevTools } from "redux-devtools-extension";
+// import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import rootReducer from "./reducers";
 

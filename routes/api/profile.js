@@ -4,6 +4,7 @@ const auth = require("../../middleware/auth");
 const { check, validationResult } = require("express-validator");
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
+const Post = require("../../models/Posts");
 const request = require("request");
 const config = require("config");
 //Sending to FRONT =>>
@@ -70,7 +71,7 @@ router.post(
     if (website) profileFileds.website = website;
     if (location) profileFileds.location = location;
     if (bio) profileFileds.bio = bio;
-    if (status) profileFileds.status = company;
+    if (status) profileFileds.status = status;
     if (githubusername) profileFileds.githubusername = githubusername;
     if (skills) {
       profileFileds.skills = skills.split(",").map(skill => skill.trim());
@@ -78,11 +79,11 @@ router.post(
 
     // Build social object
     profileFileds.social = {};
-    if (youtube) profileFileds.social.youtube = youtube;
-    if (twitter) profileFileds.social.twitter = twitter;
-    if (facebook) profileFileds.social.facebook.facebook;
-    if (linkedin) profileFileds.social.linkedin = linkedin;
-    if (instagram) profileFileds.social.instagram = instagram;
+    if (youtube) profileFileds.youtube = youtube;
+    if (twitter) profileFileds.twitter = twitter;
+    if (facebook) profileFileds.facebook = facebook;
+    if (linkedin) profileFileds.linkedin = linkedin;
+    if (instagram) profileFileds.instagram = instagram;
 
     try {
       let profile = await Profile.findOne({ user: req.user.id });
@@ -152,6 +153,7 @@ router.get("/user/:user_id", async (req, res) => {
 router.delete("/", auth, async (req, res) => {
   try {
     // @todo-remove user posts
+    await Post.deleteMany({ user: req.user.id });
     // Remove profile
     await Profile.findOneAndRemove({ user: req.user.id }); // obrisacemo Profile na osnovu toga sto je uzet user.id
     // Remove user
